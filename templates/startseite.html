@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoinTerminal</title>
+<link rel="stylesheet" href="{% static 'css/startseite.css' %}">
+</head>
+
+<body>
+
+<header>
+    <div class="left-header">
+        <img src="{% static 'css/logo.png' %}" alt="Logo">
+        <div class="title">
+            <div class="main-title">CoinTerminal</div>
+            <div class="sub-title">HVF Ludwigsburg</div>
+        </div>
+    </div>
+
+    <div class="center-header">
+        Startseite
+    </div>
+
+    <div class="user">
+        Max Mustermann
+    </div>
+</header>
+
+<div class="grid-container">
+    <a class="button" href="transaktionen.html">
+        Transaktionen
+    </a>
+
+    <a class="button" href="kontostand.html">
+        Kontostand
+    </a>
+
+    <a class="button" href="abheben.html">
+        Geld abheben
+    </a>
+
+    <a class="button" href="pin.html">
+        PIN ändern
+    </a>
+</div>
+
+</body>
+</html>

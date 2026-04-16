@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Geld abheben</title>
+<link rel="stylesheet" href="static/css/abheben.css">
+</head>
+
+<body>
+
+<header>
+    <div class="left-header">
+        <img src="logo.png">
+        <div class="title">
+            <div class="main-title">CoinTerminal</div>
+            <div class="sub-title">HVF Ludwigsburg</div>
+        </div>
+    </div>
+
+    <div class="center-header">Geld abheben</div>
+
+    <div class="user">Max Mustermann</div>
+</header>
+
+<div class="content">
+
+    <div id="stepText" class="step">Betrag eingeben</div>
+
+    <div id="amountDisplay" class="display">0 €</div>
+    <div id="pinDisplay" class="display hidden">----</div>
+
+    <div class="numpad">
+        <div class="key" onclick="press(1)">1</div>
+        <div class="key" onclick="press(2)">2</div>
+        <div class="key" onclick="press(3)">3</div>
+        <div class="key" onclick="press(4)">4</div>
+        <div class="key" onclick="press(5)">5</div>
+        <div class="key" onclick="press(6)">6</div>
+        <div class="key" onclick="press(7)">7</div>
+        <div class="key" onclick="press(8)">8</div>
+        <div class="key" onclick="press(9)">9</div>
+        <div class="key" onclick="clearInput()">←</div>
+        <div class="key" onclick="press(0)">0</div>
+        <div class="key" onclick="next()">OK</div>
+    </div>
+
+</div>
+
+<footer>
+    <a class="back-button" href="startseite.html">Zurück zur Startseite</a>
+</footer>
+
+<script>
+let step = 0;
+let amount = "";
+let pin = "";
+
+function update() {
+    amountDisplay.textContent = (amount || 0) + " €";
+    pinDisplay.textContent = "*".repeat(pin.length).padEnd(4, "-");
+}
+
+function press(n) {
+    if (step === 0) {
+        amount += n;
+    } else {
+        if (pin.length < 4) pin += n;
+    }
+    update();
+}
+
+function clearInput() {
+    if (step === 0) {
+        amount = amount.slice(0, -1);
+    } else {
+        pin = pin.slice(0, -1);
+    }
+    update();
+}
+
+function next() {
+    if (step === 0) {
+        step = 1;
+        stepText.textContent = "PIN eingeben";
+        amountDisplay.classList.add("hidden");
+        pinDisplay.classList.remove("hidden");
+    }
+}
+
+update();
+</script>
+
+</body>
+</html>

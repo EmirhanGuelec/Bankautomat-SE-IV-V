@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PIN ändern</title>
+<link rel="stylesheet" href="static/css/pin.css">
+</head>
+
+<body>
+
+<header>
+    <div class="left-header">
+        <img src="logo.png">
+        <div class="title">
+            <div class="main-title">CoinTerminal</div>
+            <div class="sub-title">HVF Ludwigsburg</div>
+        </div>
+    </div>
+
+    <div class="center-header">PIN ändern</div>
+
+    <div class="user">Max Mustermann</div>
+</header>
+
+<div class="content">
+
+    <div>
+        <div id="stepText" class="step-label">
+            Alten PIN eingeben
+        </div>
+
+        <div id="display" class="pin-display">
+            ----
+        </div>
+    </div>
+
+    <div class="numpad">
+        <div class="key" onclick="press(1)">1</div>
+        <div class="key" onclick="press(2)">2</div>
+        <div class="key" onclick="press(3)">3</div>
+        <div class="key" onclick="press(4)">4</div>
+        <div class="key" onclick="press(5)">5</div>
+        <div class="key" onclick="press(6)">6</div>
+        <div class="key" onclick="press(7)">7</div>
+        <div class="key" onclick="press(8)">8</div>
+        <div class="key" onclick="press(9)">9</div>
+        <div class="key" onclick="clearPin()">←</div>
+        <div class="key" onclick="press(0)">0</div>
+        <div class="key" onclick="next()">OK</div>
+    </div>
+
+</div>
+
+<footer>
+    <a class="back-button" href="startseite.html">Zurück zur Startseite</a>
+</footer>
+
+<script>
+    let step = 0;
+    let pin = "";
+
+    const steps = [
+        "Alten PIN eingeben",
+        "Neuen PIN eingeben",
+        "PIN bestätigen"
+    ];
+
+    function update() {
+        document.getElementById("stepText").textContent = steps[step];
+        document.getElementById("display").textContent =
+            "*".repeat(pin.length).padEnd(4, "-");
+    }
+
+    function press(num) {
+        if (pin.length < 4) {
+            pin += num;
+            update();
+        }
+    }
+
+    function clearPin() {
+        pin = pin.slice(0, -1);
+        update();
+    }
+
+    function next() {
+        if (pin.length < 4) return;
+
+        pin = "";
+        if (step < 2) step++;
+        update();
+    }
+
+    update();
+</script>
+
+</body>
+</html>
