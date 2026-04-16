@@ -1,17 +1,18 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="de">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Transaktionen</title>
-<link rel="stylesheet" href="static/css/transaktionen.css">
+<link rel="stylesheet" href="{% static 'css/transaktionen.css' %}">
 </head>
 
 <body>
 
 <header>
     <div class="left-header">
-        <img src="logo.png" alt="Logo">
+        <img src="{% static 'css/logo.png' %}" alt="Logo">
         <div class="title">
             <div class="main-title">CoinTerminal</div>
             <div class="sub-title">HVF Ludwigsburg</div>
@@ -66,7 +67,7 @@
 </div>
 
 <footer>
-    <a class="back-button" href="startseite.html">
+    <a class="back-button" href="{% url 'home' %}">
         Zurück zur Startseite
     </a>
 </footer>
