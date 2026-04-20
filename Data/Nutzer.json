@@ -1,0 +1,17 @@
+[
+  {
+    "user": "Alfred",
+    "pin": "1234",
+    "kontostand": 1000
+  },
+  {
+    "user": "Günther",
+    "pin": "1234",
+    "kontostand": 100
+  },
+  {
+    "user": "Marianne",
+    "pin": "1234",
+    "kontostand": 10
+  }
+]
