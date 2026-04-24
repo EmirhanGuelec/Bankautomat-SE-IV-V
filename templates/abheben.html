@@ -21,32 +21,79 @@
 
     <div class="center-header">Geld abheben</div>
 
-    <div class="user">Max Mustermann</div>
+    <div class="user">{{ request.session.user|default:"Max Mustermann" }}</div>
 </header>
 
 <div class="content">
 
-    <div id="stepText" class="step">Betrag eingeben</div>
+    {% if fehler %}
+    <div class="fehler">{{ fehler }}</div>
+    {% endif %}
 
-    <div id="amountDisplay" class="display">0 €</div>
-    <div id="pinDisplay" class="display hidden">----</div>
+    {% if erfolg %}
+    <div class="erfolg">{{ erfolg }}</div>
+    {% endif %}
 
-    <div class="numpad">
-        <div class="key" onclick="press(1)">1</div>
-        <div class="key" onclick="press(2)">2</div>
-        <div class="key" onclick="press(3)">3</div>
-        <div class="key" onclick="press(4)">4</div>
-        <div class="key" onclick="press(5)">5</div>
-        <div class="key" onclick="press(6)">6</div>
-        <div class="key" onclick="press(7)">7</div>
-        <div class="key" onclick="press(8)">8</div>
-        <div class="key" onclick="press(9)">9</div>
-        <div class="key" onclick="clearInput()">←</div>
-        <div class="key" onclick="press(0)">0</div>
-        <div class="key" onclick="next()">OK</div>
-    </div>
+    <div class="kontostand-anzeige">Aktueller Kontostand: {{ kontostand|floatformat:2 }} €</div>
+
+    <form method="post" action="{% url 'abheben' %}">
+        {% csrf_token %}
+        <div id="stepText" class="step">Betrag eingeben</div>
+
+        <div id="amountDisplay" class="display">0 €</div>
+        <div id="pinDisplay" class="display hidden">----</div>
+
+        <input type="hidden" name="betrag" id="betragInput" value="">
+
+        <div class="numpad">
+            <div class="key" onclick="press(1)">1</div>
+            <div class="key" onclick="press(2)">2</div>
+            <div class="key" onclick="press(3)">3</div>
+            <div class="key" onclick="press(4)">4</div>
+            <div class="key" onclick="press(5)">5</div>
+            <div class="key" onclick="press(6)">6</div>
+            <div class="key" onclick="press(7)">7</div>
+            <div class="key" onclick="press(8)">8</div>
+            <div class="key" onclick="press(9)">9</div>
+            <div class="key" onclick="clearInput()">←</div>
+            <div class="key" onclick="press(0)">0</div>
+            <div class="key" onclick="submitAmount()">OK</div>
+        </div>
+    </form>
+
+    <a class="back-button" href="{% url 'home' %}">Zurück</a>
 
 </div>
+
+<script>
+let currentAmount = '';
+
+function press(num) {
+    currentAmount += num;
+    updateDisplay();
+}
+
+function clearInput() {
+    currentAmount = currentAmount.slice(0, -1);
+    updateDisplay();
+}
+
+function updateDisplay() {
+    document.getElementById('amountDisplay').textContent = currentAmount + ' €';
+}
+
+function submitAmount() {
+    if (currentAmount === '') {
+        alert('Bitte geben Sie einen Betrag ein.');
+        return;
+    }
+    document.getElementById('betragInput').value = currentAmount;
+    document.querySelector('form').submit();
+}
+</script>
+
+</body>
+</html>
 
 <footer>
     <a class="back-button" href="{% url 'home' %}">Zurück zur Startseite</a>

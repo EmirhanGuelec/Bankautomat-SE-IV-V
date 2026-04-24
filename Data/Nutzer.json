@@ -1,16 +1,19 @@
 [
   {
     "user": "Alfred",
+    "rfid": "ABC123",
     "pin": "1234",
     "kontostand": 1000
   },
   {
     "user": "Günther",
+    "rfid": "DEF456",
     "pin": "1234",
     "kontostand": 100
   },
   {
     "user": "Marianne",
+    "rfid": "GHI789",
     "pin": "1234",
     "kontostand": 10
   }

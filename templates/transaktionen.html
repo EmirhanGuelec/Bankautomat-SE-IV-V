@@ -24,44 +24,28 @@
     </div>
 
     <div class="user">
-        Max Mustermann
+        {{ request.session.user|default:"Max Mustermann" }}
     </div>
 </header>
 
 <div class="content">
 
     <div class="transactions">
+    {% for transaktion in transaktionen %}
     <div class="transaction">
         <div>
-            <div>Geldautomat</div>
-            <div class="meta">15.04.2026 • 14:32</div>
+            <div>{{ transaktion.typ }}</div>
+            <div class="meta">{{ transaktion.datum }} • {{ transaktion.zeit }}</div>
         </div>
-        <span class="amount">-10,00 €</span>
+        <span class="amount">{{ transaktion.betrag|floatformat:2 }} €</span>
     </div>
-
+    {% empty %}
     <div class="transaction">
         <div>
-            <div>Geldautomat</div>
-            <div class="meta">14.04.2026 • 18:05</div>
+            <div>Keine Transaktionen vorhanden</div>
         </div>
-        <span class="amount">-5,00 €</span>
     </div>
-
-    <div class="transaction">
-        <div>
-            <div>Geldautomat</div>
-            <div class="meta">13.04.2026 • 09:47</div>
-        </div>
-        <span class="amount">-20,00 €</span>
-    </div>
-
-    <div class="transaction">
-        <div>
-            <div>Geldautomat</div>
-            <div class="meta">12.04.2026 • 21:11</div>
-        </div>
-        <span class="amount">-10,00 €</span>
-    </div>
+    {% endfor %}
 </div>
 
 </div>

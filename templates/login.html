@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PIN ändern</title>
+<title>Login</title>
 <link rel="stylesheet" href="{% static 'css/pin.css' %}">
 </head>
 
@@ -26,30 +26,45 @@
 
 <div class="content">
 
-    <div>
-        <div id="stepText" class="step-label">
-             PIN eingeben
-        </div>
+    {% if fehler %}
+    <div class="fehler">{{ fehler }}</div>
+    {% endif %}
 
-        <div id="display" class="pin-display">
-            ----
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        
+        {% if step == 0 %}
+        <!-- Schritt 1: Karte hinhalten -->
+        <div class="step-label">Karte hinhalten</div>
+        <input type="hidden" name="rfid" id="rfidInput" value="">
+        <div class="rfid-bereich">
+            <div class="rfid-icon">💳</div>
+            <div id="rfidStatus">Warte auf Karte...</div>
         </div>
-    </div>
-
-    <div class="numpad">
-        <div class="key" onclick="press(1)">1</div>
-        <div class="key" onclick="press(2)">2</div>
-        <div class="key" onclick="press(3)">3</div>
-        <div class="key" onclick="press(4)">4</div>
-        <div class="key" onclick="press(5)">5</div>
-        <div class="key" onclick="press(6)">6</div>
-        <div class="key" onclick="press(7)">7</div>
-        <div class="key" onclick="press(8)">8</div>
-        <div class="key" onclick="press(9)">9</div>
-        <div class="key" onclick="clearPin()">←</div>
-        <div class="key" onclick="press(0)">0</div>
-        <div class="key" onclick="next()">OK</div>--
-    </div>
+        {% endif %}
+        
+        {% if step == 1 %}
+        <!-- Schritt 2: PIN eingeben -->
+        <div class="step-label">Hallo {{ benutzer }}<br>PIN eingeben</div>
+        <div id="display" class="pin-display">----</div>
+        <input type="hidden" name="pin" id="pinInput" value="">
+        
+        <div class="numpad">
+            <div class="key" onclick="press(1)">1</div>
+            <div class="key" onclick="press(2)">2</div>
+            <div class="key" onclick="press(3)">3</div>
+            <div class="key" onclick="press(4)">4</div>
+            <div class="key" onclick="press(5)">5</div>
+            <div class="key" onclick="press(6)">6</div>
+            <div class="key" onclick="press(7)">7</div>
+            <div class="key" onclick="press(8)">8</div>
+            <div class="key" onclick="press(9)">9</div>
+            <div class="key" onclick="clearPin()">←</div>
+            <div class="key" onclick="press(0)">0</div>
+            <div class="key" onclick="submitPin()">OK</div>
+        </div>
+        {% endif %}
+    </form>
 
 </div>
 
@@ -58,18 +73,23 @@
 </footer>
 
 <script>
-    let step = 0;
+{% if step == 0 %}
+    // RFID Simulation (später echter RFID-Reader)
+    function simulateRfid() {
+        const rfid = prompt("RFID-ID eingeben (Test: ABC123):");
+        if (rfid) {
+            document.getElementById('rfidInput').value = rfid;
+            document.querySelector('form').submit();
+        }
+    }
+    setTimeout(simulateRfid, 1000);
+{% endif %}
+
+{% if step == 1 %}
     let pin = "";
 
-    const steps = [
-        "PIN eingeben",
-        
-    ];
-
     function update() {
-        document.getElementById("stepText").textContent = steps[step];
-        document.getElementById("display").textContent =
-            "*".repeat(pin.length).padEnd(4, "-");
+        document.getElementById("display").textContent = "*".repeat(pin.length).padEnd(4, "-");
     }
 
     function press(num) {
@@ -84,9 +104,15 @@
         update();
     }
 
-    
-
-    update();
+    function submitPin() {
+        if (pin.length !== 4) {
+            alert('Bitte 4-stellige PIN eingeben');
+            return;
+        }
+        document.getElementById('pinInput').value = pin;
+        document.querySelector('form').submit();
+    }
+{% endif %}
 </script>
 
 </body>

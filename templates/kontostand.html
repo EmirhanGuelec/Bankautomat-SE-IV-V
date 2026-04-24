@@ -24,14 +24,14 @@
     </div>
 
     <div class="user">
-        Max Mustermann
+        {{ request.session.user|default:"Max Mustermann" }}
     </div>
 </header>
 
 <div class="content">
     <div class="balance-box">
         <div class="label">Aktueller Kontostand</div>
-        <div class="balance">45,00 €</div>
+        <div class="balance">{{ kontostand|floatformat:2 }} €</div>
     </div>
 </div>
 
