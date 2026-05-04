@@ -9,6 +9,5 @@ urlpatterns = [
     path("kontostand/", views.kontostand, name="kontostand"),
     path("abheben/", views.abheben, name="abheben"),
     path("pin/", views.pin, name="pin"),
-    path("login/", views.Login, name="login"),
     path("ausgeloggt/", views.ausgeloggt, name="ausgeloggt"),
 ]

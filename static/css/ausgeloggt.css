@@ -21,8 +21,8 @@
 
     /* HEADER */
     header {
-        display: grid;
-        grid-template-columns: 1fr auto 1fr;
+        position: relative;
+        display: flex;
         align-items: center;
         padding: 10px 20px;
         background: white;
@@ -36,29 +36,43 @@
     }
 
     .left-header img {
-        height: 40px;
+        height: 60px;
     }
 
     .title {
         display: flex;
         flex-direction: column;
-        line-height: 1.2;
     }
 
     .main-title {
-        font-size: 18px;
+        font-size: 25px;
         font-weight: 600;
     }
 
     .sub-title {
-        font-size: 12px;
+        font-size: 15px;
         color: #666;
     }
 
     .center-header {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
         text-align: center;
-        font-size: 20px;
+        font-size: 50px;
         font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .logout {
+        margin-left: auto;
+    }
+
+    .logout a img {
+        width: 80px;
+        height: 80px;
+        margin: 0;
+        padding: 0;
     }
 
     .user {

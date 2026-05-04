@@ -1,104 +1,166 @@
-* { box-sizing: border-box; }
+* {
+    box-sizing: border-box;
+}
 
-html,
-body {
+html, body {
     margin: 0;
     height: 100%;
     overflow: hidden;
 }
 
 body {
-    margin: 0;
     font-family: Arial, sans-serif;
     background: #f5f5f5;
+
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    height: 100vh;
+}
+
+/* HEADER & FOOTER gleich groß */
+header,
+footer {
+    height: 12vh;
+    min-height: 80px;
+
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+
+    background: white;
 }
 
 header {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-    padding: 10px 20px;
-    background: white;
     border-bottom: 1px solid #ddd;
+    position: relative;
 }
 
+footer {
+    border-top: 1px solid #ddd;
+}
+
+/* HEADER LINKS */
 .left-header {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.left-header img { height: 40px; }
+.left-header img {
+    height: 60px;
+}
 
-.title { display: flex; flex-direction: column; }
-.main-title { font-size: 18px; font-weight: 600; }
-.sub-title { font-size: 12px; color: #666; }
+.title {
+    display: flex;
+    flex-direction: column;
+}
 
-.center-header { text-align: center; font-size: 20px; font-weight: 600; }
-.user { text-align: right; font-size: 14px; }
-
-.content {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: 15px;
-        overflow: hidden;
-    }
-.step {
-    text-align: center;
-    font-size: 45px;
+.main-title {
+    font-size: 22px;
     font-weight: 600;
 }
 
+.sub-title {
+    font-size: 14px;
+    color: #666;
+}
+
+/* HEADER MITTE */
+.center-header {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 36px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* HEADER RECHTS */
+.logout {
+    margin-left: auto;
+}
+
+.logout img {
+    height: 60%;
+}
+
+/* CONTENT */
+.content {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    padding: 10px;
+    overflow: hidden;
+}
+
+/* STEP TEXT */
+.step {
+    text-align: center;
+    font-size: 36px;
+    font-weight: 600;
+}
+
+/* DISPLAY (Betrag & PIN) */
 .display {
     background: white;
     border: 1px solid #ddd;
-    padding: 25px;
-    font-size: 36px;
+
+    padding: 15px;
+    font-size: 34px;
     text-align: center;
+
+    margin: 10px 0;
 }
 
+/* NUMPAD bekommt maximalen Platz */
 .numpad {
+    flex: 1;
+
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 12px;
 }
 
+/* große Touch-Tasten */
 .key {
     background: white;
     border: 1px solid #ccc;
-    font-size: 28px;
-    padding: 20px 0;
-    text-align: center;
+
+    font-size: 32px;
+    font-weight: bold;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 100%;
+    user-select: none;
 }
 
 .key:active {
     background: #ddd;
 }
 
+/* verstecken */
 .hidden {
     display: none;
 }
 
-footer {
-    position: relative;
-    z-index: 10;
-    padding: 15px;
-    background: white;
-    border-top: 1px solid #ddd;
-}
-
+/* FOOTER BUTTON */
 .back-button {
-    display: block;
     width: 100%;
-    text-align: center;
-    padding: 15px;
-    font-size: 20px;
+    height: 70%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 24px;
     text-decoration: none;
+
     background: #eee;
     color: #111;
     border: 1px solid #ccc;

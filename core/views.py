@@ -19,9 +19,6 @@ def abheben(request):
 def pin(request):
     return render(request, "pin.html")
 
-def Login(request):
-    return render(request, "login.html")
-
 def ausgeloggt(request):
     return render(request, "ausgeloggt.html")
 
