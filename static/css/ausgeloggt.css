@@ -19,15 +19,27 @@
         min-height: 100vh;
     }
 
-    /* HEADER */
-    header {
-        position: relative;
-        display: flex;
-        align-items: center;
-        padding: 10px 20px;
-        background: white;
-        border-bottom: 1px solid #ddd;
-    }
+    header,
+footer {
+    height: 12vh;
+    min-height: 80px;
+
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+
+    background: white;
+}
+
+header {
+    border-bottom: 1px solid #ddd;
+    position: relative;
+}
+
+footer {
+    border-top: 1px solid #ddd;
+}
+  
 
     .left-header {
         display: flex;
