@@ -24,7 +24,7 @@
     </div>
 
     <div class="logout">
-        <a href="{% url 'ausgeloggt' %}"><img src="{% static 'css/logout.png' %}" alt="Logout" style="width: 80px; height: 80px; margin: 0; padding: 0;"></a>
+        <a href="{% url 'logout' %}"><img src="{% static 'css/logout.png' %}" alt="Logout" style="width: 80px; height: 80px; margin: 0; padding: 0;"></a>
     </div>
 </header>
 
@@ -46,5 +46,45 @@
     </a>
 </div>
 
+<script>
+(function() {
+    const modal = document.getElementById('rfid-modal');
+    const uidInput = document.getElementById('rfid-uid');
+    const error = document.getElementById('rfid-error');
+    const submit = document.getElementById('rfid-submit');
+    const cancel = document.getElementById('rfid-cancel');
+
+    function hideModal() {
+        modal.classList.add('hidden');
+        error.textContent = '';
+    }
+
+    cancel.addEventListener('click', hideModal);
+
+    submit.addEventListener('click', async function() {
+        const uid = uidInput.value.trim();
+        if (!uid) {
+            error.textContent = 'Bitte eine RFID-ID eingeben.';
+            return;
+        }
+
+        const response = await fetch('{% url "rfid_login" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ uid })
+        });
+
+        const data = await response.json();
+        if (!data.success) {
+            error.textContent = data.error || 'Login fehlgeschlagen.';
+            return;
+        }
+
+        window.location.reload();
+    });
+})();
+</script>
 </body>
 </html>

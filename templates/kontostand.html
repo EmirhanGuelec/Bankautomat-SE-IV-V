@@ -24,14 +24,19 @@
     </div>
 
     <div class="logout">
-        <a href="{% url 'ausgeloggt' %}"><img src="{% static 'css/logout.png' %}" alt="Logout" style="width: 80px; height: 80px; margin: 0; padding: 0;"></a>
+        <a href="{% url 'logout' %}"><img src="{% static 'css/logout.png' %}" alt="Logout" style="width: 80px; height: 80px; margin: 0; padding: 0;"></a>
     </div>
 </header>
 
 <div class="content">
     <div class="balance-box">
-        <div class="label">Aktueller Kontostand</div>
-        <div class="balance">45,00 €</div>
+        {% if user %}
+        <div class="label">Aktueller Kontostand von {{ user.user }}</div>
+        <div class="balance">{{ balance|floatformat:2 }} €</div>
+        {% else %}
+        <div class="label">Kein Nutzer angemeldet</div>
+        <div class="balance">Bitte zuerst über die Startseite einloggen.</div>
+        {% endif %}
     </div>
 </div>
 

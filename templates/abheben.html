@@ -22,7 +22,7 @@
     <div class="center-header">Geld abheben</div>
 
     <div class="logout">
-        <a href="{% url 'ausgeloggt' %}"><img src="{% static 'css/logout.png' %}" alt="Logout" style="width: 80px; height: 80px; margin: 0; padding: 0;"></a>
+        <a href="{% url 'logout' %}"><img src="{% static 'css/logout.png' %}" alt="Logout" style="width: 80px; height: 80px; margin: 0; padding: 0;"></a>
     </div>
 </header>
 
@@ -32,6 +32,7 @@
 
     <div id="amountDisplay" class="display">0 €</div>
     <div id="pinDisplay" class="display hidden">----</div>
+    <div id="message" class="message"></div>
 
     <div class="numpad">
         <div class="key" onclick="press(1)">1</div>
@@ -82,12 +83,60 @@ function clearInput() {
     update();
 }
 
+async function submitWithdrawal() {
+    const amountValue = parseFloat(amount.replace(',', '.') || '0');
+    const pinValue = pin;
+    if (!amountValue || amountValue <= 0) {
+        message.textContent = 'Bitte einen gültigen Betrag eingeben.';
+        message.className = 'message error';
+        return;
+    }
+    if (pinValue.length !== 4) {
+        message.textContent = 'PIN muss 4 Ziffern haben.';
+        message.className = 'message error';
+        return;
+    }
+
+    const response = await fetch('{% url "abheben_api" %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ amount: amountValue, pin: pinValue })
+    });
+
+    const data = await response.json();
+    if (!data.success) {
+        message.textContent = data.error || 'Fehler beim Abheben.';
+        message.className = 'message error';
+        return;
+    }
+
+    message.textContent = 'Auszahlung erfolgreich. Neuer Kontostand: ' + data.balance.toFixed(2) + ' €';
+    message.className = 'message success';
+    amount = '';
+    pin = '';
+    step = 0;
+    amountDisplay.classList.remove('hidden');
+    pinDisplay.classList.add('hidden');
+    stepText.textContent = 'Betrag eingeben';
+    update();
+}
+
 function next() {
     if (step === 0) {
+        if (!amount) {
+            message.textContent = 'Bitte einen Betrag eingeben.';
+            message.className = 'message error';
+            return;
+        }
         step = 1;
-        stepText.textContent = "PIN eingeben";
-        amountDisplay.classList.add("hidden");
-        pinDisplay.classList.remove("hidden");
+        stepText.textContent = 'PIN eingeben';
+        amountDisplay.classList.add('hidden');
+        pinDisplay.classList.remove('hidden');
+        message.textContent = '';
+    } else {
+        submitWithdrawal();
     }
 }
 

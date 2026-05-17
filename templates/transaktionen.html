@@ -24,45 +24,29 @@
     </div>
 
     <div class="logout">
-        <a href="{% url 'ausgeloggt' %}"><img src="{% static 'css/logout.png' %}" alt="Logout" style="width: 80px; height: 80px; margin: 0; padding: 0;"></a>
+        <a href="{% url 'logout' %}"><img src="{% static 'css/logout.png' %}" alt="Logout" style="width: 80px; height: 80px; margin: 0; padding: 0;"></a>
     </div>
 </header>
 
 <div class="content">
 
     <div class="transactions">
-    <div class="transaction">
-        <div>
-            <div>Geldautomat</div>
-            <div class="meta">15.04.2026 • 14:32</div>
+    {% if transactions %}
+        {% for tx in transactions %}
+        <div class="transaction">
+            <div>
+                <div>{{ tx.description }}</div>
+                <div class="meta">{{ tx.date }} • {{ tx.time }}</div>
+            </div>
+            <span class="amount">{{ tx.amount|floatformat:2 }} €</span>
         </div>
-        <span class="amount">-10,00 €</span>
-    </div>
-
-    <div class="transaction">
-        <div>
-            <div>Geldautomat</div>
-            <div class="meta">14.04.2026 • 18:05</div>
+        {% endfor %}
+    {% else %}
+        <div class="transaction">
+            <div>Keine Transaktionen vorhanden.</div>
         </div>
-        <span class="amount">-5,00 €</span>
+    {% endif %}
     </div>
-
-    <div class="transaction">
-        <div>
-            <div>Geldautomat</div>
-            <div class="meta">13.04.2026 • 09:47</div>
-        </div>
-        <span class="amount">-20,00 €</span>
-    </div>
-
-    <div class="transaction">
-        <div>
-            <div>Geldautomat</div>
-            <div class="meta">12.04.2026 • 21:11</div>
-        </div>
-        <span class="amount">-10,00 €</span>
-    </div>
-</div>
 
 </div>
 

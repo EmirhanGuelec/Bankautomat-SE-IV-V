@@ -2,8 +2,8 @@
   {
     "user": "Alfred",
     "pin": "1234",
-    "rfid": "1"
-    "kontostand": 1000
+    "rfid": "1",
+    "kontostand": 980.0
   },
   {
     "user": "Günther",

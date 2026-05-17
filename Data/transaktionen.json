@@ -1,0 +1,11 @@
+[
+  {
+    "rfid": "1",
+    "user": "Alfred",
+    "amount": -20.0,
+    "description": "Geld abgehoben",
+    "date": "17.05.2026",
+    "time": "14:11",
+    "timestamp": "2026-05-17T14:11:42.999650"
+  }
+]
