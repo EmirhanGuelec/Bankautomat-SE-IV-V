@@ -214,4 +214,82 @@ def rfid_login(request):
     return JsonResponse({'success': True, 'user': user.get('user')})
 
 
+    try:
+        amount = float(amount_raw.replace(',', '.'))
+    except ValueError:
+        return JsonResponse({'success': False, 'error': 'Ungültiger Betrag.'}, status=400)
+
+    if amount <= 0:
+        return JsonResponse({'success': False, 'error': 'Betrag muss größer null sein.'}, status=400)
+
+    if not pin or len(pin) != 4 or not pin.isdigit():
+        return JsonResponse({'success': False, 'error': 'PIN muss vierstellig sein.'}, status=400)
+
+    users = load_users()
+    target_user = None
+    for idx, stored in enumerate(users):
+        if str(stored.get('rfid', '')).strip() == str(user.get('rfid', '')).strip():
+            target_user = (idx, stored)
+            break
+
+    if target_user is None:
+        return JsonResponse({'success': False, 'error': 'Nutzer nicht gefunden.'}, status=404)
+
+    idx, stored = target_user
+    if str(stored.get('pin', '')) != pin:
+        return JsonResponse({'success': False, 'error': 'PIN ist falsch.'}, status=403)
+
+    current_balance = float(stored.get('kontostand', 0))
+    if amount > current_balance:
+        return JsonResponse({'success': False, 'error': 'Nicht genug Guthaben.'}, status=400)
+
+    new_balance = round(current_balance - amount, 2)
+    users[idx]['kontostand'] = new_balance
+    save_users(users)
+
+    updated_user = request.session['rfid_user'].copy()
+    updated_user['kontostand'] = new_balance
+    request.session['rfid_user'] = updated_user
+    request.session.modified = True
+
+    transactions = load_transactions()
+    transactions.append({
+        'rfid': str(stored.get('rfid', '')).strip(),
+        'user': stored.get('user', ''),
+        'amount': -round(amount, 2),
+        'description': 'Geld abgehoben',
+        'date': datetime.now().strftime('%d.%m.%Y'),
+        'time': datetime.now().strftime('%H:%M'),
+        'timestamp': datetime.now().isoformat(),
+    })
+    save_transactions(transactions)
+
+    return JsonResponse({'success': True, 'balance': new_balance})
+
+
+@csrf_exempt
+def rfid_login(request):
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'error': 'Nur POST erlaubt.'}, status=405)
+
+    try:
+        payload = json.loads(request.body.decode('utf-8') or '{}')
+    except json.JSONDecodeError:
+        return JsonResponse({'success': False, 'error': 'Ungültiges JSON.'}, status=400)
+
+    uid = str(payload.get('uid', '')).strip()
+    if not uid:
+        return JsonResponse({'success': False, 'error': 'UID darf nicht leer sein.'}, status=400)
+
+    user = get_user_by_rfid(uid)
+    if not user:
+        return JsonResponse({'success': False, 'error': 'Keine passende Nutzer-ID gefunden.'}, status=404)
+
+    request.session['rfid_user'] = {
+        'user': user.get('user'),
+        'kontostand': user.get('kontostand'),
+        'rfid': user.get('rfid'),
+    }
+    return JsonResponse({'success': True, 'user': user.get('user')})
+
     

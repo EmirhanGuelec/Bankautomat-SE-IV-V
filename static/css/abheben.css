@@ -96,26 +96,47 @@ footer {
     overflow: hidden;
 }
 
-/* STEP TEXT */
-.step {
+/* TEXT + PIN */
+.step-label {
     text-align: center;
     font-size: 36px;
     font-weight: 600;
 }
 
-/* DISPLAY (Betrag & PIN) */
-.display {
+.pin-display {
     background: white;
     border: 1px solid #ddd;
-
     padding: 15px;
-    font-size: 34px;
+    font-size: 32px;
     text-align: center;
+    letter-spacing: 10px;
+    margin: 10px 0;
+    min-height: 80px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
+.hidden {
+    display: none;
+}
+
+.message {
+    text-align: center;
+    font-size: 18px;
     margin: 10px 0;
 }
 
-/* NUMPAD bekommt maximalen Platz */
+.message.error {
+    color: #c62828;
+}
+
+.message.success {
+    color: #2e7d32;
+}
+
+/* NUMPAD */
 .numpad {
     flex: 1;
 
@@ -124,7 +145,7 @@ footer {
     gap: 12px;
 }
 
-/* große Touch-Tasten */
+/* TASTEN */
 .key {
     background: white;
     border: 1px solid #ccc;
@@ -142,11 +163,6 @@ footer {
 
 .key:active {
     background: #ddd;
-}
-
-/* verstecken */
-.hidden {
-    display: none;
 }
 
 /* FOOTER BUTTON */
