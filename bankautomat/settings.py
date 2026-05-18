@@ -20,6 +20,8 @@ INSTALLED_APPS = [
     "core",
 ]
 
+ALLOWED_HOSTS = ["*"]
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",

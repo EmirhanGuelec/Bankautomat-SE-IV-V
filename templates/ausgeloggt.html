@@ -19,53 +19,8 @@
         </div>
     </div>
 
-    <div class="center-header">
-        Ausgeloggt
-    </div>
-
 </header>
-<div class="mainy">
-    {% if logged_in %}
-        <div class="logged-in">
-            Du bist bereits angemeldet. <a href="{% url 'home' %}">Zur Startseite</a>
-        </div>
-    {% else %}
-        <div class="login-box">
-            <div class="login-title">RFID Fallback-Login</div>
-            <p>Gib hier deine RFID-ID ein, z.B. <strong>1</strong>.</p>
-            <input id="rfid-uid" type="text" placeholder="RFID-ID eingeben" autocomplete="off">
-            <button id="rfid-submit" class="button">Einloggen</button>
-            <div id="rfid-error" class="error"></div>
-        </div>
-    {% endif %}
-</div>
+<h1>Bitte RFID Karte scannen</h1>
 
-<script>
-(function() {
-    const submit = document.getElementById('rfid-submit');
-    const uidInput = document.getElementById('rfid-uid');
-    const error = document.getElementById('rfid-error');
-    if (!submit) return;
-    submit.addEventListener('click', async function() {
-        const uid = uidInput.value.trim();
-        error.textContent = '';
-        if (!uid) {
-            error.textContent = 'Bitte gib eine RFID-ID ein.';
-            return;
-        }
-        const response = await fetch('{% url "rfid_login" %}', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ uid })
-        });
-        const data = await response.json();
-        if (!data.success) {
-            error.textContent = data.error || 'Login fehlgeschlagen.';
-            return;
-        }
-        window.location.href = '{% url "home" %}';
-    });
-})();
-</script>
 </body>
 </html>

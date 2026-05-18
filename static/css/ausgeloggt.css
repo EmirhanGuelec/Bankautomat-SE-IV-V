@@ -1,6 +1,13 @@
     *{
         box-sizing: border-box;
     }
+    h1 {
+        font-size: 150px;
+        font-weight: 600;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
     html,
     body {
@@ -100,3 +107,4 @@ footer {
         font-size: 70px;
         font-weight: bold;
     }
+    
