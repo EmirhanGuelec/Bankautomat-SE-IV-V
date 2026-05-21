@@ -18,7 +18,12 @@
             <div class="sub-title">HVF Ludwigsburg</div>
         </div>
     </div>
-
+    <!-- Nur für Testphase -->
+    <form method="POST">
+        {% csrf_token %}
+        <input name="uid"> 
+        </input>
+    </form>
 </header>
 <h1>Bitte RFID Karte scannen</h1>
 

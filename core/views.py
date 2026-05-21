@@ -11,9 +11,24 @@ current_user = None
 
 
 def ausgeloggt(request):
-
+    global JSON_PATH
+    global logged_in
+    global current_user
     if logged_in:
         return redirect("/startseite/")
+    
+    #ganzes if ding nur für testphase für manuelle verifizierung
+    if request.method=="POST":  
+        uid=request.POST.get("uid")
+        with open(JSON_PATH, "r", encoding="utf-8") as f:
+            users = json.load(f)
+        for u in users:
+            if u["uid"]== uid:
+                logged_in=True
+                current_user=u
+                return redirect("/startseite/")
+            else:
+                logged_in=False
 
     return render(request, "ausgeloggt.html")
 
@@ -82,9 +97,67 @@ def pin(request):
 
     if not logged_in:
         return redirect("/ausgeloggt/")
+    
+    if request.method=="POST":
+        alterpin=request.POST.get("AlterPin")
+        
+        if alterpin==current_user["pin"]:
+            
+            return render(request,"changepin.html")
+        
+        else:
 
+            return render(request,"pin.html",{"error":"Falscher Pin"})
+        
     return render(request, "pin.html")
 
+def changepin(request):
+
+    if not logged_in:
+        return redirect("/ausgeloggt/")
+    
+    if request.method=="POST":
+        
+        neuerpin1=request.POST.get("Neuerpin")
+        
+    if not neuerpin1:
+        return render(request,"changepin.html",{"error":"Bitte PIN erneut eingeben"})
+    
+    if neuerpin1:
+        return render(request,"confirmpin.html",{"neuerpin":neuerpin1})
+    
+    return render(request,"changepin.html")
+
+def confirmpin(request):
+
+    if not logged_in:
+        return redirect("/ausgeloggt/")
+    
+    if request.method=="POST":
+
+        neuerpin2=request.POST.get("Neuerpin")
+        neuerpin1=request.POST.get("erste_eingabe")
+
+    if not neuerpin1 or not neuerpin2:
+
+        return render(request,"changepin.html",{"error":"Bitte PIN erneut eingeben"})
+    
+    if neuerpin2==neuerpin1:
+
+        with open(JSON_PATH, "r", encoding="utf-8") as f:
+            users = json.load(f)
+
+        for u in users:
+            if u["uid"] == current_user["uid"]:
+                u["pin"]=neuerpin1
+                current_user["pin"]=neuerpin1
+
+        with open(JSON_PATH, "w", encoding="utf-8") as f:
+                json.dump(users, f, ensure_ascii=False, indent=4)
+    
+        return render(request,"pin.html",{"message":"PIN wurde Erfolgreich geändert"})
+    else:
+        return render(request,"changepin.html",{"error":"PINs stimmen nicht überein!"})
 
 def kontostand(request):
 

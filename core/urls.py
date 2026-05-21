@@ -16,7 +16,13 @@ urlpatterns = [
 
     path("pin/", views.pin, name="pin"),
 
+    path("changepin/",views.changepin, name="changepin"),
+
+    path("confirmpin/",views.confirmpin, name="confirmpin"),
+
     path("kontostand/", views.kontostand, name="kontostand"),
 
     path("transaktionen/", views.transaktionen, name="transaktionen"),
+    
+    
 ]

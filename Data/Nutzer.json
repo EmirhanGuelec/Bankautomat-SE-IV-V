@@ -1,20 +1,20 @@
 [
-  {
-    "user": "Alfred",
-    "pin": "1234",
-    "uid": "647199131442",
-    "kontostand": 1000
-  },
-  {
-    "user": "Günther",
-    "pin": "1234",
-    "uid": "124688008928",
-    "kontostand": 100
-  },
-  {
-    "user": "Marianne",
-    "pin": "1234",
-    "uid": "3",
-    "kontostand": 10
-  }
+    {
+        "user": "Alfred",
+        "pin": "1234",
+        "uid": "647199131442",
+        "kontostand": 1000
+    },
+    {
+        "user": "Günther",
+        "pin": "1234",
+        "uid": "124688008928",
+        "kontostand": 100
+    },
+    {
+        "user": "Marianne",
+        "pin": "1234",
+        "uid": "3",
+        "kontostand": 10
+    }
 ]

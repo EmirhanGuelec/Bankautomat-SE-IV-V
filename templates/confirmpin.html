@@ -30,12 +30,12 @@
 
     <div>
         <div class="label">
-            Alten PIN eingeben
+            Bitte geben Sie Ihre PIN erneut ein
         </div>
+
         {% if error %}
         <div class="error">
-            <!-- eventuell kein alert machen -->
-        <script>alert("{{ error }}") </script>
+        {{ error }}
         </div>
         {% endif %}
 
@@ -63,10 +63,12 @@
     
 </div>
     
-<form method="POST" type="hidden"  action="{% url 'pin' %}" id="pinform">
-    <input name="AlterPin" id="pinübergabe" type="hidden">
+<form method="POST" type="hidden"  action="{% url 'confirmpin' %}" id="pinform">
+    <input name="Neuerpin" id="pinübergabe" type="hidden">
+    <input name="erste_eingabe" type="hidden" value="{{neuerpin}}">
     {% csrf_token %}
 </form>
+
 <footer>
     <a class="back-button" href="{% url 'startseite' %}">Zurück zur Startseite</a>
 </footer>
