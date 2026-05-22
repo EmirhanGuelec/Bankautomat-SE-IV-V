@@ -86,9 +86,25 @@ def startseite(request):
 
 
 def abheben(request):
-
+    alter_kontostand=0
     if not logged_in:
         return redirect("/ausgeloggt/")
+    
+    if request.method=="POST":
+        betrag=request.POST.get("betrag")
+
+        with open(JSON_PATH, "r", encoding="utf-8") as f:
+            users = json.load(f)
+
+        for u in users:
+            if u["uid"] == current_user["uid"]:
+                alter_kontostand=u["kontostand"]
+                neuer_kontostand= int(alter_kontostand) - int(betrag)
+                u["kontostand"]=neuer_kontostand
+                current_user["kontostand"]=neuer_kontostand
+
+        with open(JSON_PATH, "w", encoding="utf-8") as f:
+                json.dump(users, f, ensure_ascii=False, indent=4)
 
     return render(request, "abheben.html")
 

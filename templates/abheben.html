@@ -27,24 +27,7 @@
 </header>
 
 <div class="content">
-
-    {% if fehler %}
-    <div class="fehler">{{ fehler }}</div>
-    {% endif %}
-
-    <div id="message" class="message"></div>
-
-    <form id="withdrawalForm" method="post" action="{% url 'abheben' %}">
-        {% csrf_token %}
-        <div>
-            <div id="stepText" class="step-label">Betrag eingeben</div>
-            <div id="amountDisplay" class="pin-display">0 €</div>
-            <div id="pinDisplay" class="pin-display hidden">----</div>
-        </div>
-
-        <input type="hidden" name="betrag" id="betragInput" value="">
-        <input type="hidden" name="pin" id="pinInput" value="">
-    </form>
+    <div id="display" class="pin-display">0 €</div>
 
     <div class="numpad">
         <div class="key" onclick="press(1)">1</div>
@@ -61,10 +44,41 @@
         <div class="key" onclick="next()">OK</div>
     </div>
 
+    <form id="hiddenform" type="hidden" method="POST" action="{% url 'abheben' %}">
+        <input type="hidden" id="betrag" name="betrag">
+        {% csrf_token %}
+    </form>
+
 </div>
 
 <footer>
     <a class="back-button" href="{% url 'startseite' %}">Zurück zur Startseite</a>
 </footer>
+<script>
+    let pin="";
+    function press(number) {
+
+    pin += number;
+
+    updateDisplay();
+    }
+
+    function updateDisplay() {
+
+    document.getElementById("display").innerText = pin;
+    }
+
+    function clearInput() {
+
+    pin = pin.slice(0, -1);
+
+    updateDisplay(pin);
+    }
+    function next() {
+    document.getElementById("betrag").value=pin;
+    document.getElementById("hiddenform").submit();
+    }
+
+</script>
 </body>
 </html>
