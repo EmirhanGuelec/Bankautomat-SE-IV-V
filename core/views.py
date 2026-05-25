@@ -86,7 +86,7 @@ def startseite(request):
 
 
 def abheben(request):
-    alter_kontostand=0
+    alter_kontostand=None
     if not logged_in:
         return redirect("/ausgeloggt/")
     
@@ -100,8 +100,13 @@ def abheben(request):
             if u["uid"] == current_user["uid"]:
                 alter_kontostand=u["kontostand"]
                 neuer_kontostand= int(alter_kontostand) - int(betrag)
-                u["kontostand"]=neuer_kontostand
-                current_user["kontostand"]=neuer_kontostand
+
+                if int(betrag)<alter_kontostand:
+                    u["kontostand"]=neuer_kontostand
+                    current_user["kontostand"]=neuer_kontostand
+
+                else:
+                    return render(request,"abheben.html",{"error":"Sie haben nicht genug Geld"})
 
         with open(JSON_PATH, "w", encoding="utf-8") as f:
                 json.dump(users, f, ensure_ascii=False, indent=4)
@@ -171,7 +176,7 @@ def confirmpin(request):
         with open(JSON_PATH, "w", encoding="utf-8") as f:
                 json.dump(users, f, ensure_ascii=False, indent=4)
     
-        return render(request,"pin.html",{"message":"PIN wurde Erfolgreich geändert"})
+        return render(request,"pin.html",{"error":"PIN wurde Erfolgreich geändert!"})
     else:
         return render(request,"changepin.html",{"error":"PINs stimmen nicht überein!"})
 

@@ -33,10 +33,9 @@
             Alten PIN eingeben
         </div>
         {% if error %}
-        <div class="error">
-            <!-- eventuell kein alert machen -->
-        <script>alert("{{ error }}") </script>
-        </div>
+            <div class="error">
+                {{ error }}
+            </div>
         {% endif %}
 
         <div id="display" class="pin-display">

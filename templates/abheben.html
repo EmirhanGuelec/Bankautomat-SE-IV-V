@@ -29,6 +29,12 @@
 <div class="content">
     <div id="display" class="pin-display">0 €</div>
 
+    {% if error %}
+    <div class="error">
+    {{ error }}
+    </div>
+    {% endif %}
+    
     <div class="numpad">
         <div class="key" onclick="press(1)">1</div>
         <div class="key" onclick="press(2)">2</div>
