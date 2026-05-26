@@ -31,22 +31,34 @@
 <div class="content">
 
     <div class="transactions">
-    {% if transactions %}
-        {% for tx in transactions %}
-        <div class="transaction">
-            <div>
-                <div>{{ tx.description }}</div>
-                <div class="meta">{{ tx.date }} • {{ tx.time }}</div>
-            </div>
-            <span class="amount">{{ tx.amount|floatformat:2 }} €</span>
+
+{% if transactions %}
+
+    {% for tx in transactions %}
+
+    <div class="transaction">
+
+        <div>
+            Auszahlung von {{ tx.betrag }} €
         </div>
-        {% endfor %}
-    {% else %}
-        <div class="transaction">
-            <div>Keine Transaktionen vorhanden.</div>
+
+        <div class="meta">
+            {{ tx.datum }} um {{ tx.uhrzeit }}
         </div>
-    {% endif %}
+
     </div>
+
+    {% endfor %}
+
+{% else %}
+
+    <div class="transaction">
+        Keine Transaktionen vorhanden.
+    </div>
+
+{% endif %}
+
+</div>
 
 </div>
 

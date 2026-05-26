@@ -32,7 +32,7 @@
     <div class="balance-box">
         {% if user %}
         <div class="label">Aktueller Kontostand von {{ user.user }}</div>
-        <div class="balance">{{ balance|floatformat:2 }} €</div>
+        <div class="balance">{{ user.kontostand }} €</div>
         {% else %}
         <div class="label">Kein Nutzer angemeldet</div>
         <div class="balance">Bitte zuerst über die Startseite einloggen.</div>

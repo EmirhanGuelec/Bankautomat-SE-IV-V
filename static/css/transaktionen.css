@@ -96,6 +96,12 @@ footer {
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
     }
+    
+    .meta {
+    font-size: 14px;
+    color: gray;
+    margin-top: 5px;
+}
 
 
     

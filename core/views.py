@@ -3,8 +3,10 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 import json
+from datetime import datetime
 
 JSON_PATH = settings.BASE_DIR / "Data" / "Nutzer.json"
+TRANSAKTION_PATH = settings.BASE_DIR / "Data" / "transaktionen.json"
 
 logged_in = False
 current_user = None
@@ -104,6 +106,20 @@ def abheben(request):
                 if int(betrag)<alter_kontostand:
                     u["kontostand"]=neuer_kontostand
                     current_user["kontostand"]=neuer_kontostand
+                    with open(TRANSAKTION_PATH, "r", encoding="utf-8") as f:
+                        transaktionen = json.load(f)
+
+                    jetzt = datetime.now()
+
+                    transaktionen.append({
+                        "uid": current_user["uid"],
+                        "betrag": betrag,
+                        "datum": jetzt.strftime("%d.%m.%Y"),
+                        "uhrzeit": jetzt.strftime("%H:%M")
+                    })
+
+                    with open(TRANSAKTION_PATH, "w", encoding="utf-8") as f:
+                        json.dump(transaktionen, f, ensure_ascii=False, indent=4)
 
                 else:
                     return render(request,"abheben.html",{"error":"Sie haben nicht genug Geld"})
@@ -195,4 +211,16 @@ def transaktionen(request):
     if not logged_in:
         return redirect("/ausgeloggt/")
 
-    return render(request, "transaktionen.html")
+    with open(TRANSAKTION_PATH, "r", encoding="utf-8") as f:
+        alle_transaktionen = json.load(f)
+
+    user_transaktionen = []
+
+    for tx in alle_transaktionen:
+
+        if tx["uid"] == current_user["uid"]:
+            user_transaktionen.append(tx)
+
+    return render(request, "transaktionen.html", {
+        "transactions": user_transaktionen
+    })
